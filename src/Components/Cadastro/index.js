@@ -3,9 +3,12 @@ import { useState } from "react";
 import axios from "axios";
 import logo from "../../Assets/Logo.png";
 import TelaCadastro from "./style";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 function Cadastro(){
     const navigate = useNavigate();
+    const [carregando, setCarregando] = useState(false);
     const [emailUsuario, setEmailUsuario] = useState("");
     const [senhaUsuario, setSenhaUsuario] = useState("");
     const [nomeUsuario, setNomeUsuario] = useState("");
@@ -19,7 +22,12 @@ function Cadastro(){
     }
 
     function enviarCadastro(){
+        setCarregando(true);
         const Promessa=axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", objetoCadastro);
+        
+        setTimeout(() => 
+        setCarregando(false), 4000);
+
         Promessa.then(() => navigate('/'));
         Promessa.catch(() => alert("Sua requisição falhou. Tente novamente."));
     }
@@ -27,15 +35,19 @@ function Cadastro(){
     return (
         <TelaCadastro>
         <img src={logo} alt="imagem logo"/>
-        <input type="email" placeholder="email"
+        <input type="email" disabled={carregando} placeholder="email"
         onChange={(e) => setEmailUsuario(e.target.value)} value={emailUsuario}></input>
-        <input type="text" placeholder="senha"
+        <input type="password" disabled={carregando} placeholder="senha"
         onChange={(e) => setSenhaUsuario(e.target.value)} value={senhaUsuario}></input>
-        <input type="text" placeholder="nome"
+        <input type="text" disabled={carregando} placeholder="nome"
         onChange={(e) => setNomeUsuario(e.target.value)} value={nomeUsuario}></input>
-        <input type="url" placeholder="foto"
+        <input type="url" disabled={carregando} placeholder="foto"
         onChange={(e) => setFotoUsuario(e.target.value)} value={fotoUsuario}></input>
-        <button onClick={enviarCadastro}>Cadastrar</button>
+        <button onClick={enviarCadastro}>
+            {carregando?
+                <Loader type="ThreeDots" color="#FFFFFF" height={50} width={50} />
+            : "Cadastrar"}
+        </button>
         <Link to="/">Já tem uma conta? Faça Login!</Link>
         </TelaCadastro>
     );

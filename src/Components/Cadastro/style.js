@@ -49,7 +49,7 @@ const TelaCadastro = styled.div `
         color: #FFFFFF;
     }
     Link {
-        all: unset;
+        text-decoration: none;
         font-family: Lexend Deca;
         font-style: normal;
         font-weight: normal;
