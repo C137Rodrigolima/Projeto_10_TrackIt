@@ -5,6 +5,7 @@ import Cadastro from "./Components/Cadastro";
 import Habitos from "./Components/Habitos";
 import Hoje from "./Components/Hoje";
 import Historico from "./Components/Historico";
+import "./styles/reset.css";
 import "./styles/style.css";
 
 function App(){
@@ -12,10 +13,10 @@ function App(){
         <BrowserRouter>
         <Routes>
             <Route path="/" element={<Login />}></Route>
-            <Route path="/Cadastro" element={<Cadastro />}></Route>
-            <Route path="/Habitos" element={<Habitos />}></Route>
-            <Route path="/Hoje" element={<Hoje />}></Route>
-            <Route path="/Historico" element={<Historico />}></Route>
+            <Route path="/cadastro" element={<Cadastro />}></Route>
+            <Route path="/habitos" element={<Habitos />}></Route>
+            <Route path="/hoje" element={<Hoje />}></Route>
+            <Route path="/historico" element={<Historico />}></Route>
         </Routes>
         </BrowserRouter>
     );
