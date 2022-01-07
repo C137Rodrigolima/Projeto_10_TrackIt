@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../Assets/Logo.png";
-import TelaCadastro from "../Cadastro/style";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import {TelaCadastro, StyledLink } from "../Cadastro/style";
 import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import TokenContext from "../../contexts/TokenContext";
+import ImagemPerfilContext from "../../contexts/ImagemPerfilContext";
 
 function Login(){
     const navigate = useNavigate();
     const [carregando, setCarregando] = useState(false);
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-    const [token, setToken] = useState("");
+    const {token, setToken} = useContext(TokenContext);
+    const {imagemPerfil, setImagemPerfil} = useContext(ImagemPerfilContext);
 
     const objetoLogin = {
         email: email,
@@ -20,21 +23,26 @@ function Login(){
 
     function fazerLogin(){
         setCarregando(true);
-        const PromessaTokien = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
+        const PromessaToken = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
         objetoLogin);
 
-        setTimeout(() => 
-        setCarregando(false), 4000);
+        setTimeout(() =>
+        setCarregando(false)
+        , 3000);
 
-        PromessaTokien.then(
-            (resposta)=> {
-            setToken(resposta.data.token);
-            navigate("/habitos");
+        PromessaToken.then((resposta) => {
+
+            setToken(resposta.data.token)
+            setImagemPerfil(resposta.data.image)
+            
+            navigate("/hoje");
         });
-        PromessaTokien.catch(() =>{
-            alert("Login mal sucedido. Tente novamente.");
+
+        PromessaToken.catch(() =>{
+            alert("Email ou Senha incorretos. Tente novamente.");
         });
     }
+
 
     return (
         <TelaCadastro>
@@ -45,10 +53,10 @@ function Login(){
         onChange={(e) => setSenha(e.target.value)}></input>
         <button onClick={fazerLogin} disabled={carregando} >
             {carregando?
-                <Loader type="ThreeDots" color="#FFFFFF" height={50} width={50} />
+                <Loader type="ThreeDots" color="#FFFFFF" height={50} width={50}></Loader>
             : "Entrar"}
         </button>
-        <Link to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
+        <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
         </TelaCadastro>
     );
 }

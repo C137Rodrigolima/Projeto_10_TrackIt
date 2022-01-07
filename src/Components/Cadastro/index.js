@@ -1,10 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import logo from "../../Assets/Logo.png";
-import TelaCadastro from "./style";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { TelaCadastro, StyledLink } from "./style";
 import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 function Cadastro(){
     const navigate = useNavigate();
@@ -26,10 +26,10 @@ function Cadastro(){
         const Promessa=axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", objetoCadastro);
         
         setTimeout(() => 
-        setCarregando(false), 4000);
+        setCarregando(false), 3000);
 
         Promessa.then(() => navigate('/'));
-        Promessa.catch(() => alert("Sua requisição falhou. Tente novamente."));
+        Promessa.catch(() => alert("Requisição mal sucedida. Tente novamente."));
     }
 
     return (
@@ -43,12 +43,12 @@ function Cadastro(){
         onChange={(e) => setNomeUsuario(e.target.value)} value={nomeUsuario}></input>
         <input type="url" disabled={carregando} placeholder="foto"
         onChange={(e) => setFotoUsuario(e.target.value)} value={fotoUsuario}></input>
-        <button onClick={enviarCadastro}>
+        <button disabled={carregando} onClick={enviarCadastro}>
             {carregando?
-                <Loader type="ThreeDots" color="#FFFFFF" height={50} width={50} />
+                <Loader type="ThreeDots" color="#FFFFFF" height={50} width={50}></Loader>
             : "Cadastrar"}
         </button>
-        <Link to="/">Já tem uma conta? Faça Login!</Link>
+        <StyledLink to="/">Já tem uma conta? Faça Login!</StyledLink>
         </TelaCadastro>
     );
 }
