@@ -3,6 +3,7 @@ import styled from "styled-components";
 const StyledFormulario = styled.div `
     width: 340px;
     height: 180px;
+    margin-bottom: 10px;
     padding: 18px;
     gap: 8px;
     

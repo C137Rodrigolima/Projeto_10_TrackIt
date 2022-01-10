@@ -5,6 +5,7 @@ import Topo from "../Topo";
 import Menu from "../Menu";
 import {Conteiner} from "../Historico/style";
 import { StyledFormulario, ConteinerBotoes, BotaoCustomizado } from "./style";
+import lixeira from "../../Assets/Lixeira.png"
 
 function Habitos(){
     const {token, setToken} = useContext(TokenContext);
@@ -29,12 +30,11 @@ function Habitos(){
         PromessaHabitos.then((resposta)=> {
             console.log(resposta);
             setHabitosUsuario(resposta.data);
-            
         });
         PromessaHabitos.catch(()=>alert("erro com autentificação de token"));
     }, []);
 
-    function handleDia(botao){
+    function selecionarDia(botao){
         let validation = false;
         diasSelecionados.filter((indicebotao) =>{
             if(indicebotao === botao.numero){
@@ -68,6 +68,15 @@ function Habitos(){
         PromessaEnvio.catch((erro)=> console.log(erro));
     }
 
+    function apagarHabito(id){
+        alert("este é um botão de apagar hábito");
+        const PromessaDelete = axios.delete(`
+        https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}
+        `, {headers: {Authorization: `Bearer ${token}`}});
+        PromessaDelete.then((resposta)=> console.log(resposta));
+        PromessaDelete.catch((erro)=> console.log(erro));
+    }
+
     return (
         <>
         <Topo />
@@ -83,7 +92,7 @@ function Habitos(){
                 <ConteinerBotoes>
                     {objetoBotoes.map((botao) => 
                         <BotaoCustomizado corTexto={botao.corTexto} corBorda={botao.corBorda} corFundo={botao.corFundo}
-                        key={botao.numero} onClick={()=> handleDia(botao)}>
+                        key={botao.numero} onClick={()=> selecionarDia(botao)}>
                             {botao.dia}
                         </BotaoCustomizado>)}
                 </ConteinerBotoes>
@@ -91,25 +100,18 @@ function Habitos(){
                 <div className="navegacao-formulario" onClick={enviarFormulario}>Salvar</div>
             </StyledFormulario>
             }
-            {//buscar a dica do Dina sobre como usar menos elementos de curto circuito e o outro negócio nas validações...
-            //está no LiveCoding do ZapRecall...
-            }
             {habitosUsuario.length===0?
             <h2>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h2>
-            //do contrário, mudar para curtcircuit e colocar o map com eles aqui...
             :
-            
-            <StyledFormulario>
-                {habitosUsuario.map((habito) =>
-                <>
-                <div>{habito.id}</div>
-                <div>{habito.name}</div>
-                <div>{habito.days}</div>
-                </>
+            habitosUsuario.map((habito) =>
+                <StyledFormulario>
+                    <div className="top-habito">
+                        <h3>{habito.name}</h3>
+                        <img onClick={()=>apagarHabito(habito.id)} src={lixeira} alt="lixeira imagem" />
+                    </div>
+                    <div>{habito.days}</div>
+                </StyledFormulario>
                 )}
-            </StyledFormulario>
-            }
-            
         </Conteiner>
         <Menu />
         </>
