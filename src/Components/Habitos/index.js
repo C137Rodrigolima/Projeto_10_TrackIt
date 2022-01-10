@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import TokenContext from "../../contexts/TokenContext";
 import Topo from "../Topo";
 import Menu from "../Menu";
-import {Conteiner} from "../Historico/style";
-import { StyledFormulario, ConteinerBotoes, BotaoCustomizado } from "./style";
+import { Conteiner, TopoConteinerHabitos, StyledFormulario, StyledHabitos, ConteinerBotoes, BotaoCustomizado } from "./style";
 import lixeira from "../../Assets/Lixeira.png";
 
 function Habitos(){
@@ -78,7 +77,7 @@ function Habitos(){
     }
 
     function apagarHabito(id){
-        if (window.confirm("Você realmente quer sair?")){
+        if (window.confirm("Você realmente deseja apagar o hábito?")){
             setRecarregamento(false);
 
             const PromessaDelete = axios.delete(`
@@ -100,10 +99,10 @@ function Habitos(){
         <>
         <Topo />
         <Conteiner>
-            <div>
+            <TopoConteinerHabitos>
                 <h1>Meus hábitos</h1>
                 <button onClick={()=> setCriandoHabito(true)}>+</button>
-            </div>
+            </TopoConteinerHabitos>
             {criandoHabito &&
             <StyledFormulario>
                 <input placeholder="nome do hábito" value={inputNomeHabito}
@@ -116,23 +115,25 @@ function Habitos(){
                             {botao.dia}
                         </BotaoCustomizado>)}
                 </ConteinerBotoes>
+                <div className="caixaBotoes">
                 <div className="navegacao-formulario"
                 onClick={()=> setCriandoHabito(false)}>Cancelar</div>
                 <div className="navegacao-formulario"
                 onClick={enviarFormulario}>Salvar</div>
+                </div>
             </StyledFormulario>
             }
             {habitosUsuario.length===0?
             <h2>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h2>
             :
             habitosUsuario.map((habito) =>
-                <StyledFormulario>
+                <StyledHabitos>
                     <div className="top-habito">
                         <h3>{habito.name}</h3>
                         <img onClick={()=>apagarHabito(habito.id)} src={lixeira} alt="lixeira imagem" />
                     </div>
                     <div>{habito.days}</div>
-                </StyledFormulario>
+                </StyledHabitos>
                 )}
         </Conteiner>
         <Menu />

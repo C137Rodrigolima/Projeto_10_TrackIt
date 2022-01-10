@@ -7,7 +7,7 @@ const SubtituloHabitos = styled.div`
     font-size: 17.976px;
     line-height: 22px;
 
-    color: ${props => props.habitosConcluidos===0? "#BABABA" : "#8FC549"};
+    color: ${props => props.porcentagemHabitos===0? "#BABABA" : "#8FC549"};
 `;
 
 const CheckHabito = styled.div`

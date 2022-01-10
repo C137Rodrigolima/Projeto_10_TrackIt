@@ -6,12 +6,14 @@ import Menu from "../Menu";
 import {Conteiner} from "../Historico/style";
 import {CheckHabito, Botaocheck, SubtituloHabitos} from "./style";
 import check from "../../Assets/Check.png";
+import dayjs from "dayjs";
 
 function Hoje(){
     const {token, setToken} = useContext(TokenContext);
     const [hojeHabitos, setHojeHabitos] = useState([]);
-    const [habitosConcluidos, sethabitosConcluidos] = useState(0);
+    const [porcentagemHabitos, setPorcentagemHabitos] = useState(0);
     const [recarregamento, setRecarregamento] = useState(true);
+    require('dayjs/locale/pt-br');
 
     useEffect(()=> {
         const PromessaHabitosHoje = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today",
@@ -22,7 +24,6 @@ function Hoje(){
         });
         PromessaHabitosHoje.catch(()=>alert("erro com autentificação de token. Faça login novamente."));
     }, [recarregamento]);
-
 
     function marcarHabito(id, feito) {
         console.log(id, feito);
@@ -37,6 +38,23 @@ function Hoje(){
             console.log(erro);
             setRecarregamento(true);
         });
+        calcularHabitos();
+    }
+
+    function calcularHabitos(){
+        let numero = 0;
+        for(let i=0; i<hojeHabitos.length; i++){
+            if(hojeHabitos[i].done === true){
+                numero++;
+            }
+        }
+        console.log(numero);
+        if(numero===0) {
+            setPorcentagemHabitos(0);
+        } else{
+            let porcentagem = (numero/hojeHabitos.length)*100;
+            setPorcentagemHabitos(porcentagem.toFixed(0));
+        }
     }
 
 
@@ -45,7 +63,7 @@ function Hoje(){
             <>
         <Topo />
         <Conteiner>
-            <div>Loading</div>
+            <div>Carregando</div>
         </Conteiner>
         <Menu />
         </>
@@ -56,12 +74,12 @@ function Hoje(){
         <>
         <Topo />
         <Conteiner>
-            <h1>Dia de Hoje</h1>
-            <SubtituloHabitos habitosConcluidos={habitosConcluidos}>
-            { habitosConcluidos === 0?
+            <h1>{dayjs().locale('pt-br').format("dddd")}, {dayjs().format('DD/MM')}</h1>
+            <SubtituloHabitos porcentagemHabitos={porcentagemHabitos}>
+            { porcentagemHabitos === 0?
             "Nenhum hábito concluído ainda"
             :
-            "Alguns dos hábitos concluídos"
+            `${porcentagemHabitos}% dos hábitos concluídos`
             }
             </SubtituloHabitos>
             
@@ -72,7 +90,7 @@ function Hoje(){
                 <h6>
                     <p>Sequência atual: <span >{habito.currentSequence} dias</span></p>
                     <p>Seu recorde:
-                        {habito.currentSequence === habito.highestSequence?
+                        {habito.currentSequence >= habito.highestSequence?
                         <span checkcor={habito.done}> {habito.highestSequence} dias</span>
                         :` ${habito.highestSequence} dias`
                         }

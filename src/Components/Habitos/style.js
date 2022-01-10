@@ -1,5 +1,64 @@
 import styled from "styled-components";
 
+const Conteiner = styled.div`
+    height: 100vh;
+    padding: 70px 17px;
+    padding-bottom: 70px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: #F2F2F2;
+
+    h1 {
+        margin-top: 28px;
+        font-family: Lexend Deca;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 22.976px;
+        line-height: 29px;
+
+        color: #126BA5;
+    }
+    h2 {
+        margin-top: 17px;
+        font-family: Lexend Deca;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 17.976px;
+        line-height: 22px;
+
+        color: #666666;
+    }
+    .top-conteinerhabitos {
+        display
+    }
+`;
+
+const TopoConteinerHabitos = styled.div `
+    width: 375px;
+    padding: 0px 17px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+        all: unset;
+        width: 40px;
+        height: 35px;
+
+        font-size: 26.976px;
+        line-height: 34px;
+        text-align: center;
+
+        color: #FFFFFF;
+
+        background: #52B6FF;
+        border-radius: 4.63636px;
+    }
+`;
+
 const StyledFormulario = styled.div `
     width: 340px;
     height: 180px;
@@ -8,8 +67,8 @@ const StyledFormulario = styled.div `
     gap: 8px;
     
     display: flex;
-    flex-wrap: wrap;
-    justify-content: right;
+    flex-direction: column;
+    align-items: left;
     
     background: #FFFFFF;
     border-radius: 5px;
@@ -33,6 +92,18 @@ const StyledFormulario = styled.div `
     input::placeholder {
         color: #DBDBDB;
     }
+    .caixaBotoes {
+        display: flex;
+        gap:10px;
+        justify-content: right;
+        align-items: center;
+    }
+    .top-habito {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
     
     .navegacao-formulario {
         width: 84px;
@@ -54,6 +125,19 @@ const StyledFormulario = styled.div `
         background: #52B6FF;
         border-radius: 4.63636px;
     }
+`;
+
+const StyledHabitos= styled.div `
+
+    width: 340px;
+    height: 91px;
+    margin-bottom: 10px;
+    padding: 18px;
+    gap: 8px;
+
+    background: #FFFFFF;
+    border-radius: 5px;
+}
 `;
 
 const ConteinerBotoes = styled.div`
@@ -86,4 +170,4 @@ const BotaoCustomizado = styled.button`
     border-radius: 5px;
 `;
 
-export {StyledFormulario, ConteinerBotoes, BotaoCustomizado};
+export {Conteiner, TopoConteinerHabitos, StyledFormulario, StyledHabitos, ConteinerBotoes, BotaoCustomizado};

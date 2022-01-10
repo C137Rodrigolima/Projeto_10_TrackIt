@@ -2,11 +2,16 @@ import styled from "styled-components";
 
 const Conteiner = styled.div`
     height: 100vh;
-    padding-top: 80px;
-    margin-bottom: 70px;
+    padding: 70px 17px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+
     background-color: #F2F2F2;
 
     h1 {
+        margin-top: 28px;
         font-family: Lexend Deca;
         font-style: normal;
         font-weight: normal;
@@ -16,6 +21,7 @@ const Conteiner = styled.div`
         color: #126BA5;
     }
     h2 {
+        margin-top: 17px;
         font-family: Lexend Deca;
         font-style: normal;
         font-weight: normal;
