@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 const Conteiner = styled.div`
-    height: 100%;
-    padding-top: 70px;
-    padding-bottom: 80px;
+    height: 100vh;
+    padding-top: 80px;
+    margin-bottom: 70px;
     background-color: #F2F2F2;
 
     h1 {

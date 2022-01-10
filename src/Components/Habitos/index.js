@@ -5,7 +5,7 @@ import Topo from "../Topo";
 import Menu from "../Menu";
 import {Conteiner} from "../Historico/style";
 import { StyledFormulario, ConteinerBotoes, BotaoCustomizado } from "./style";
-import lixeira from "../../Assets/Lixeira.png"
+import lixeira from "../../Assets/Lixeira.png";
 
 function Habitos(){
     const {token, setToken} = useContext(TokenContext);
@@ -22,17 +22,17 @@ function Habitos(){
     const [diasSelecionados, setDiasSelecionados] = useState([]);
     const [inputNomeHabito, setInputNomeHabito] = useState("");
     const [habitosUsuario, setHabitosUsuario] = useState([]);
+    const [recarregamento, setRecarregamento] = useState(true);
 
     useEffect(()=> {
         const PromessaHabitos = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
         {headers: {Authorization: `Bearer ${token}`}}
         );
         PromessaHabitos.then((resposta)=> {
-            console.log(resposta);
             setHabitosUsuario(resposta.data);
         });
-        PromessaHabitos.catch(()=>alert("erro com autentificação de token"));
-    }, []);
+        PromessaHabitos.catch(()=>alert("erro com autentificação de token. Faça Login novamente."));
+    }, [recarregamento]);
 
     function selecionarDia(botao){
         let validation = false;
@@ -58,23 +58,42 @@ function Habitos(){
     }
 
     function enviarFormulario(){
+        setRecarregamento(false);
+        setCriandoHabito(false);
         const objetoHabito = {
             name: inputNomeHabito,
             days: diasSelecionados
         };
-        const PromessaEnvio = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", objetoHabito,
-        {headers: {Authorization: `Bearer ${token}`}});
-        PromessaEnvio.then((resposta)=> console.log(resposta.data));
-        PromessaEnvio.catch((erro)=> console.log(erro));
+        const PromessaEnvio = axios.post(
+        "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+        objetoHabito, {headers: {Authorization: `Bearer ${token}`}});
+        PromessaEnvio.then((resposta)=> {
+            console.log(resposta.data);
+            setRecarregamento(true);
+        });
+        PromessaEnvio.catch((erro)=> {
+            console.log(erro);
+            setRecarregamento(true);
+        });
     }
 
     function apagarHabito(id){
-        alert("este é um botão de apagar hábito");
-        const PromessaDelete = axios.delete(`
-        https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}
-        `, {headers: {Authorization: `Bearer ${token}`}});
-        PromessaDelete.then((resposta)=> console.log(resposta));
-        PromessaDelete.catch((erro)=> console.log(erro));
+        if (window.confirm("Você realmente quer sair?")){
+            setRecarregamento(false);
+
+            const PromessaDelete = axios.delete(`
+            https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}
+            `, {headers: {Authorization: `Bearer ${token}`}});
+
+            PromessaDelete.then((resposta)=> {
+                console.log(resposta.data);
+                setRecarregamento(true);
+            });
+            PromessaDelete.catch((erro)=> {
+                console.log(erro);
+                setRecarregamento(true);
+            });
+        }
     }
 
     return (
@@ -91,13 +110,16 @@ function Habitos(){
                 onChange={(e) => setInputNomeHabito(e.target.value)}></input>
                 <ConteinerBotoes>
                     {objetoBotoes.map((botao) => 
-                        <BotaoCustomizado corTexto={botao.corTexto} corBorda={botao.corBorda} corFundo={botao.corFundo}
+                        <BotaoCustomizado corTexto={botao.corTexto}
+                        corBorda={botao.corBorda} corFundo={botao.corFundo}
                         key={botao.numero} onClick={()=> selecionarDia(botao)}>
                             {botao.dia}
                         </BotaoCustomizado>)}
                 </ConteinerBotoes>
-                <div className="navegacao-formulario" onClick={()=> setCriandoHabito(false)}>Cancelar</div>
-                <div className="navegacao-formulario" onClick={enviarFormulario}>Salvar</div>
+                <div className="navegacao-formulario"
+                onClick={()=> setCriandoHabito(false)}>Cancelar</div>
+                <div className="navegacao-formulario"
+                onClick={enviarFormulario}>Salvar</div>
             </StyledFormulario>
             }
             {habitosUsuario.length===0?
