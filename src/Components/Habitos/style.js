@@ -147,6 +147,21 @@ const StyledHabitos= styled.div `
 
     background: #FFFFFF;
     border-radius: 5px;
+
+    .top-habito{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    h3 {
+        margin-bottom: 10px;
+        font-family: Lexend Deca;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 19.976px;
+        line-height: 25px;
+        color: #666666;
+    }
 }
 `;
 

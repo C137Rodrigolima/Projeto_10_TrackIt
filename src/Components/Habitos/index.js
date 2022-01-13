@@ -33,6 +33,27 @@ function Habitos(){
         PromessaHabitos.catch(()=>alert("erro com autentificação de token. Faça Login novamente."));
     }, [recarregamento]);
 
+    function colocarDias(arr){
+        let nomeDias = ["D", "S", "T", "Q", "Q", "S", "S"];
+        let arraydeDiasGenericos = [0,1,2,3,4,5,6];
+        let arraydeDias = [];
+        for(let i=0; i<arraydeDiasGenericos.length; i++){
+            if(arr.includes(arraydeDiasGenericos[i])){
+                arraydeDias.push(
+                    <BotaoCustomizado corTexto="#FFFFFF" corBorda= "#CFCFCF" corFundo= "#CFCFCF">
+                        {`${nomeDias[i]}`}
+                    </BotaoCustomizado>);
+            } else {
+                arraydeDias.push(
+                    <BotaoCustomizado corTexto="#DBDBDB" corBorda= "#D5D5D5" corFundo= "#FFFFFF">
+                        {`${nomeDias[i]}`}
+                    </BotaoCustomizado>);
+            }
+        
+        }
+        return arraydeDias;
+    }
+
     function selecionarDia(botao){
         let validation = false;
         diasSelecionados.filter((indicebotao) =>{
@@ -132,7 +153,9 @@ function Habitos(){
                         <h3>{habito.name}</h3>
                         <img onClick={()=>apagarHabito(habito.id)} src={lixeira} alt="lixeira imagem" />
                     </div>
-                    <div>{habito.days}</div>
+                    <ConteinerBotoes>
+                        {colocarDias(habito.days)}
+                    </ConteinerBotoes>
                 </StyledHabitos>
                 )}
         </Conteiner>
