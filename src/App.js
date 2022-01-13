@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ResetarEstiloGlobal from "./styles/reset";
+import GlobalEstilo from "./styles/GlobalEstilo";
 import Login from "./Components/Login";
 import Cadastro from "./Components/Cadastro";
 import Habitos from "./Components/Habitos";
 import Hoje from "./Components/Hoje";
 import Historico from "./Components/Historico";
-import TokenContext from './contexts/TokenContext';
-import ImagemPerfilContext from "./contexts/ImagemPerfilContext";
-import "./styles/reset.css";
-import "./styles/style.css";
+import PorcentagemContext from './contexts/PorcentagemContext';
 
 function App(){
-    const [token, setToken] = useState("");
-    const [imagemPerfil, setImagemPerfil] = useState("");
+    const [porcentagemHabitos, setPorcentagemHabitos] = useState(0);
 
     return (
-        <TokenContext.Provider value={{token, setToken}}>
-            <ImagemPerfilContext.Provider value={{imagemPerfil, setImagemPerfil}}>
+        <PorcentagemContext.Provider value={{porcentagemHabitos, setPorcentagemHabitos}}>
                 <BrowserRouter>
+                    <ResetarEstiloGlobal />
+                    <GlobalEstilo />
                     <Routes>
                         <Route path="/" element={<Login />}></Route>
                         <Route path="/cadastro" element={<Cadastro />}></Route>
@@ -26,8 +25,7 @@ function App(){
                         <Route path="/historico" element={<Historico />}></Route>
                     </Routes>
                 </BrowserRouter>
-            </ImagemPerfilContext.Provider>
-        </TokenContext.Provider>
+        </PorcentagemContext.Provider>
     );
 }
 

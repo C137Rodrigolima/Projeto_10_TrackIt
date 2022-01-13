@@ -10,6 +10,8 @@ const Styledtopo = styled.div`
     align-items: center;
     position: fixed;
 
+    box-sizing: border-box;
+
     background: #126BA5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 

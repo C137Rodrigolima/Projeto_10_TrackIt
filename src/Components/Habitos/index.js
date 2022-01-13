@@ -1,13 +1,12 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import TokenContext from "../../contexts/TokenContext";
+import { useEffect, useState } from "react";
 import Topo from "../Topo";
 import Menu from "../Menu";
 import { Conteiner, TopoConteinerHabitos, StyledFormulario, StyledHabitos, ConteinerBotoes, BotaoCustomizado } from "./style";
 import lixeira from "../../Assets/Lixeira.png";
 
 function Habitos(){
-    const {token, setToken} = useContext(TokenContext);
+    const token = localStorage.getItem("token");
     const [criandoHabito, setCriandoHabito] = useState(false);
     const [objetoBotoes, setObjetoBotoes] = useState([
         {dia: "D", numero: 0, corTexto: "#DBDBDB", corBorda: "#D5D5D5", corFundo: "#FFFFFF"},
@@ -24,8 +23,9 @@ function Habitos(){
     const [recarregamento, setRecarregamento] = useState(true);
 
     useEffect(()=> {
-        const PromessaHabitos = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
-        {headers: {Authorization: `Bearer ${token}`}}
+        const PromessaHabitos = axios.get(
+            "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+            {headers: {Authorization: `Bearer ${token}`}}
         );
         PromessaHabitos.then((resposta)=> {
             setHabitosUsuario(resposta.data);
@@ -98,7 +98,7 @@ function Habitos(){
     return (
         <>
         <Topo />
-        <Conteiner>
+        <Conteiner alturaTela={habitosUsuario.length}>
             <TopoConteinerHabitos>
                 <h1>Meus hábitos</h1>
                 <button onClick={()=> setCriandoHabito(true)}>+</button>
@@ -127,7 +127,7 @@ function Habitos(){
             <h2>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h2>
             :
             habitosUsuario.map((habito) =>
-                <StyledHabitos>
+                <StyledHabitos key={habito.id}>
                     <div className="top-habito">
                         <h3>{habito.name}</h3>
                         <img onClick={()=>apagarHabito(habito.id)} src={lixeira} alt="lixeira imagem" />

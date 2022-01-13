@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
 const Conteiner = styled.div`
-    height: 100vh;
+    height: ${props => props.alturaTela<3? "100vh" :"100%"};
+    width: 100%;
     padding: 70px 17px;
     padding-bottom: 70px;
-
+    
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
 
     background-color: #F2F2F2;
 
@@ -39,9 +41,15 @@ const Conteiner = styled.div`
 const TopoConteinerHabitos = styled.div `
     width: 375px;
     padding: 0px 17px;
+    margin-bottom: 15px;
+
+    text-align: center;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
+
 
     button {
         all: unset;
@@ -63,7 +71,7 @@ const StyledFormulario = styled.div `
     width: 340px;
     height: 180px;
     margin-bottom: 10px;
-    padding: 18px;
+    padding: 17px 18px;
     gap: 8px;
     
     display: flex;
@@ -72,6 +80,7 @@ const StyledFormulario = styled.div `
     
     background: #FFFFFF;
     border-radius: 5px;
+    box-sizing: border-box;
 
     input {
         width: 303px;
@@ -132,8 +141,9 @@ const StyledHabitos= styled.div `
     width: 340px;
     height: 91px;
     margin-bottom: 10px;
-    padding: 18px;
+    padding: 17px 18px;
     gap: 8px;
+    box-sizing: border-box;
 
     background: #FFFFFF;
     border-radius: 5px;

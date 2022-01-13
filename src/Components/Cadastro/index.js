@@ -21,34 +21,41 @@ function Cadastro(){
         password: senhaUsuario
     }
 
-    function enviarCadastro(){
-        setCarregando(true);
-        const Promessa=axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", objetoCadastro);
-        
-        setTimeout(() => 
-        setCarregando(false), 3000);
+    function enviarCadastro(event){
+        event.preventDefault();
 
-        Promessa.then(() => navigate('/'));
-        Promessa.catch(() => alert("Requisição mal sucedida. Tente novamente."));
+        const Promessa=axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", objetoCadastro);
+        setCarregando(true);
+
+        Promessa.then(() => {
+            setCarregando(false);
+            navigate('/');
+        });
+        Promessa.catch(() => {
+            alert("Requisição mal sucedida. Tente novamente.");
+            setCarregando(false);
+        });
     }
 
     return (
         <TelaCadastro>
-        <img src={logo} alt="imagem logo"/>
-        <input type="email" disabled={carregando} placeholder="email"
-        onChange={(e) => setEmailUsuario(e.target.value)} value={emailUsuario}></input>
-        <input type="password" disabled={carregando} placeholder="senha"
-        onChange={(e) => setSenhaUsuario(e.target.value)} value={senhaUsuario}></input>
-        <input type="text" disabled={carregando} placeholder="nome"
-        onChange={(e) => setNomeUsuario(e.target.value)} value={nomeUsuario}></input>
-        <input type="url" disabled={carregando} placeholder="foto"
-        onChange={(e) => setFotoUsuario(e.target.value)} value={fotoUsuario}></input>
-        <button disabled={carregando} onClick={enviarCadastro}>
-            {carregando?
-                <Loader type="ThreeDots" color="#FFFFFF" height={50} width={50}></Loader>
-            : "Cadastrar"}
-        </button>
-        <StyledLink to="/">Já tem uma conta? Faça Login!</StyledLink>
+            <form onSubmit={enviarCadastro}>
+                <img src={logo} alt="imagem logo"/>
+                <input type="email" required disabled={carregando} placeholder="email"
+                onChange={(e) => setEmailUsuario(e.target.value)} value={emailUsuario}></input>
+                <input type="password" required disabled={carregando} placeholder="senha"
+                onChange={(e) => setSenhaUsuario(e.target.value)} value={senhaUsuario}></input>
+                <input type="text" required disabled={carregando} placeholder="nome"
+                onChange={(e) => setNomeUsuario(e.target.value)} value={nomeUsuario}></input>
+                <input type="url" required disabled={carregando} placeholder="foto"
+                onChange={(e) => setFotoUsuario(e.target.value)} value={fotoUsuario}></input>
+                <button type="submit" disabled={carregando}>
+                    {carregando?
+                        <Loader type="ThreeDots" color="#FFFFFF" height={50} width={50}></Loader>
+                        : "Cadastrar"}
+                </button>
+            </form>
+                <StyledLink to="/">Já tem uma conta? Faça Login!</StyledLink>
         </TelaCadastro>
     );
 }

@@ -1,17 +1,17 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import TokenContext from "../../contexts/TokenContext";
+import { useEffect, useState, useContext } from "react";
+import PorcentagemContext from "../../contexts/PorcentagemContext";
 import Topo from "../Topo";
 import Menu from "../Menu";
-import {Conteiner} from "../Historico/style";
+import {Conteiner} from "../Habitos/style";
 import {CheckHabito, Botaocheck, SubtituloHabitos} from "./style";
 import check from "../../Assets/Check.png";
 import dayjs from "dayjs";
 
 function Hoje(){
-    const {token, setToken} = useContext(TokenContext);
+    const token = localStorage.getItem("token");
     const [hojeHabitos, setHojeHabitos] = useState([]);
-    const [porcentagemHabitos, setPorcentagemHabitos] = useState(0);
+    const { porcentagemHabitos, setPorcentagemHabitos } = useContext(PorcentagemContext);
     const [recarregamento, setRecarregamento] = useState(true);
     require('dayjs/locale/pt-br');
 
@@ -20,13 +20,17 @@ function Hoje(){
         {headers: {Authorization: `Bearer ${token}`}}
         );
         PromessaHabitosHoje.then((resposta)=> {
+            console.log(resposta.data);
             setHojeHabitos(resposta.data);
         });
         PromessaHabitosHoje.catch(()=>alert("erro com autentificação de token. Faça login novamente."));
     }, [recarregamento]);
+    
+    useEffect(()=>{
+        calcularHabitos(null);
+    },[hojeHabitos]);
 
     function marcarHabito(id, feito) {
-        console.log(id, feito);
         setRecarregamento(false);
         const PromessaMarcarHabito = axios.post(`
         https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/${feito?"uncheck":"check"}`,{},
@@ -35,13 +39,13 @@ function Hoje(){
             setRecarregamento(true);
         });
         PromessaMarcarHabito.catch((erro)=>{
-            console.log(erro);
+            alert(erro);
             setRecarregamento(true);
         });
-        calcularHabitos();
+        calcularHabitos(feito);
     }
 
-    function calcularHabitos(){
+    function calcularHabitos(parametro){
         let numero = 0;
         for(let i=0; i<hojeHabitos.length; i++){
             if(hojeHabitos[i].done === true){
@@ -49,6 +53,14 @@ function Hoje(){
             }
         }
         console.log(numero);
+        if(parametro){
+            numero--;
+        } else if(parametro === null){
+            console.log("null");
+        }else if(!parametro){
+            numero++;
+        }
+
         if(numero===0) {
             setPorcentagemHabitos(0);
         } else{
@@ -57,19 +69,18 @@ function Hoje(){
         }
     }
 
-
     if(hojeHabitos.length === 0){
         return(
             <>
         <Topo />
         <Conteiner>
-            <div>Carregando</div>
+            <div>Não há nenhum hábito</div>
         </Conteiner>
         <Menu />
         </>
         );
     }
-    
+
     return (
         <>
         <Topo />
@@ -84,14 +95,14 @@ function Hoje(){
             </SubtituloHabitos>
             
             {hojeHabitos.map((habito)=>
-            <CheckHabito checkcor={habito.done}>
+            <CheckHabito checkcor={habito.done} key={habito.id}>
                 <div>
                 <h5>{habito.name}</h5>
                 <h6>
                     <p>Sequência atual: <span >{habito.currentSequence} dias</span></p>
                     <p>Seu recorde:
                         {habito.currentSequence >= habito.highestSequence?
-                        <span checkcor={habito.done}> {habito.highestSequence} dias</span>
+                        <span> {habito.highestSequence} dias</span>
                         :` ${habito.highestSequence} dias`
                         }
                     </p>

@@ -7,6 +7,13 @@ const TelaCadastro = styled.div `
     justify-content: center;
     align-items: center;
 
+    form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
     img {
         margin-top: 68px;
         margin-bottom: 33px;

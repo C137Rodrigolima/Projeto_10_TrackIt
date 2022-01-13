@@ -1,10 +1,8 @@
-import {useContext} from 'react';
-import ImagemPerfilContext from "../../contexts/ImagemPerfilContext";
 import {Styledtopo} from "./styled";
 import logotop from "../../Assets/Logo_topo.png";
 
 function Topo(){
-    const {imagemPerfil, setImagemPerfil} = useContext(ImagemPerfilContext);
+    const imagemPerfil = localStorage.getItem("imagemPerfil");
     return (
         <Styledtopo>
             <img src={logotop} alt="logo-topo" />
