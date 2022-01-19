@@ -6,7 +6,7 @@
 
 A habits tracking app written in React that allows you to improve your discipline!
 
-Try it now [here](https://track-it-1anljlk6k-c137rodrigolima.vercel.app/)
+Try it now [here](https://track-it-onynh3naj-c137rodrigolima.vercel.app)
 
 ## About
 
