@@ -69,7 +69,7 @@ function Hoje(){
         return(
             <>
         <Topo />
-        <Conteiner>
+        <Conteiner alturaTela={hojeHabitos.length}>
             <div>Não há nenhum hábito</div>
         </Conteiner>
         <Menu />
