@@ -87,12 +87,10 @@ function Habitos(){
         const PromessaEnvio = axios.post(
         "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
         objetoHabito, {headers: {Authorization: `Bearer ${token}`}});
-        PromessaEnvio.then((resposta)=> {
-            console.log(resposta.data);
+        PromessaEnvio.then(()=> {
             setRecarregamento(true);
         });
-        PromessaEnvio.catch((erro)=> {
-            console.log(erro);
+        PromessaEnvio.catch(()=> {
             setRecarregamento(true);
         });
     }
@@ -105,12 +103,10 @@ function Habitos(){
             https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}
             `, {headers: {Authorization: `Bearer ${token}`}});
 
-            PromessaDelete.then((resposta)=> {
-                console.log(resposta.data);
+            PromessaDelete.then(()=> {
                 setRecarregamento(true);
             });
-            PromessaDelete.catch((erro)=> {
-                console.log(erro);
+            PromessaDelete.catch(()=> {
                 setRecarregamento(true);
             });
         }

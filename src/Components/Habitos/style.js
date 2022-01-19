@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Conteiner = styled.div`
-    height: ${props => props.alturaTela<3? "100vh" :"100%"};
+    height: ${props => props.alturaTela<4? "100vh" :"100%"};
     width: 100%;
     padding: 70px 17px;
     padding-bottom: 70px;

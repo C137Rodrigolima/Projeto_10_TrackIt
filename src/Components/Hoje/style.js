@@ -1,5 +1,30 @@
 import styled from "styled-components";
 
+const Conteiner = styled.div`
+    height: ${props => props.alturaTela<4? "100vh" :"100%"};
+    width: 100%;
+    padding: 70px 17px;
+    padding-bottom: 70px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+
+    background-color: #F2F2F2;
+
+    h1 {
+        margin-top: 28px;
+        font-family: Lexend Deca;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 22.976px;
+        line-height: 29px;
+
+        color: #126BA5;
+    }
+`;
+
 const SubtituloHabitos = styled.div`
     font-family: Lexend Deca;
     font-style: normal;
@@ -61,4 +86,4 @@ const Botaocheck = styled.button`
     border-radius: 5px;
 `;
 
-export {CheckHabito, Botaocheck, SubtituloHabitos};
+export {Conteiner, CheckHabito, Botaocheck, SubtituloHabitos};

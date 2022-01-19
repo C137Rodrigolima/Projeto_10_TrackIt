@@ -3,8 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import PorcentagemContext from "../../contexts/PorcentagemContext";
 import Topo from "../Topo";
 import Menu from "../Menu";
-import {Conteiner} from "../Habitos/style";
-import {CheckHabito, Botaocheck, SubtituloHabitos} from "./style";
+import {Conteiner, CheckHabito, Botaocheck, SubtituloHabitos} from "./style";
 import check from "../../Assets/Check.png";
 import dayjs from "dayjs";
 
@@ -20,7 +19,6 @@ function Hoje(){
         {headers: {Authorization: `Bearer ${token}`}}
         );
         PromessaHabitosHoje.then((resposta)=> {
-            console.log(resposta.data);
             setHojeHabitos(resposta.data);
         });
         PromessaHabitosHoje.catch(()=>alert("erro com autentificação de token. Faça login novamente."));
@@ -52,11 +50,9 @@ function Hoje(){
                 numero++;
             }
         }
-        console.log(numero);
         if(parametro){
             numero--;
         } else if(parametro === null){
-            console.log("null");
         }else if(!parametro){
             numero++;
         }
@@ -84,7 +80,7 @@ function Hoje(){
     return (
         <>
         <Topo />
-        <Conteiner>
+        <Conteiner alturaTela={hojeHabitos.length}>
             <h1>{dayjs().locale('pt-br').format("dddd")}, {dayjs().format('DD/MM')}</h1>
             <SubtituloHabitos porcentagemHabitos={porcentagemHabitos}>
             { porcentagemHabitos === 0?
