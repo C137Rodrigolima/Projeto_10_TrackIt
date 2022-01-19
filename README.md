@@ -1,7 +1,7 @@
 # Trackit
 
 <p align="center">
-<img src="./src/Assets/TrackIt.gif">
+<img src="./src/Assets/Trackit.gif">
 </p>
 
 A habits tracking app written in React that allows you to improve your discipline!
